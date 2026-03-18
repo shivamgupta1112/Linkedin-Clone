@@ -1,13 +1,35 @@
 import React, { useState } from "react";
-import Google from "../../assets/icons/Google";
-import Microsoft from "../../assets/icons/Microsoft";
-import Email from "../../assets/icons/Email";
-import Linkedin from "../../assets/icons/Linkedin";
-import Phone from "../../assets/icons/Phone";
+import { Link, useNavigate } from "react-router";
+import Google from "../assets/icons/Google";
+import Microsoft from "../assets/icons/Microsoft";
+import Email from "../assets/icons/Email";
+import Linkedin from "../assets/icons/Linkedin";
+import Phone from "../assets/icons/Phone";
 
 const Auth = () => {
+    const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
-    const [joinMethod, setJoinMethod] = useState("email"); // "email" or "phone"
+    const [joinMethod, setJoinMethod] = useState("email");
+    const [isLoading, setIsLoading] = useState(false);
+
+    const handleSignUp = async () => {
+        if (isLoading) return;
+        setIsLoading(true);
+        console.log("Sign Up ...");
+        // Blocking the signup button for avoiding multiple calls,
+
+        // Todo: Implement the actual api call
+        try {
+            // simulate API call
+            await new Promise((resolve) => setTimeout(resolve, 1500));
+            sessionStorage.setItem("auth", "true");
+            navigate("/");
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setIsLoading(false);
+        }
+    }
 
     return (
         <div className="min-h-screen bg-[#f3f2ef] flex flex-col font-sans">
@@ -85,20 +107,24 @@ const Auth = () => {
                         {/* Terms */}
                         <p className="text-[12px] text-gray-500 text-center mb-4 leading-relaxed">
                             By clicking Agree & Join or Continue, you agree to the LinkedIn{" "}
-                            <a href="#" className="font-semibold text-[#0a66c2] hover:underline">
+                            <Link to="#" className="font-semibold text-[#0a66c2] hover:underline">
                                 User Agreement
-                            </a>,{" "}
-                            <a href="#" className="font-semibold text-[#0a66c2] hover:underline">
+                            </Link>,{" "}
+                            <Link to="#" className="font-semibold text-[#0a66c2] hover:underline">
                                 Privacy Policy
-                            </a>, and{" "}
-                            <a href="#" className="font-semibold text-[#0a66c2] hover:underline">
+                            </Link>, and{" "}
+                            <Link to="#" className="font-semibold text-[#0a66c2] hover:underline">
                                 Cookie Policy
-                            </a>.
+                            </Link>.
                         </p>
 
                         {/* Submit */}
-                        <button className="w-full bg-[#0a66c2] hover:bg-[#004182] text-white font-semibold rounded-full h-[48px] text-[16px] mb-5">
-                            Agree & Join
+                        <button
+                            onClick={handleSignUp}
+                            disabled={isLoading}
+                            className={`w-full rounded-full h-[48px] text-[16px] mb-5 font-semibold text-white ${isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-[#0a66c2] hover:bg-[#004182]"}`}
+                        >
+                            {isLoading ? "Signing up..." : "Agree & Join"}
                         </button>
                     </form>
 
@@ -153,9 +179,9 @@ const Auth = () => {
                 {/* Footer Link */}
                 <div className="mt-5 text-center text-[14px] text-[#000000a6]">
                     Already on LinkedIn?{" "}
-                    <a href="#" className="font-semibold text-[#0a66c2] hover:underline">
+                    <Link to="/auth?redirect-auth=signin" className="font-semibold text-[#0a66c2] hover:underline">
                         Sign in
-                    </a>
+                    </Link>
                 </div>
 
             </main>

@@ -1,13 +1,21 @@
 import React from "react";
-import Header from "./components/Header";
-import Auth from "./components/auth/Auth.jsx";
+import { BrowserRouter as Router, Routes, Route } from "react-router";
+import Home from "./screens/Home.jsx";
+import Auth from "./screens/Auth.jsx";
+import Profile from "./screens/Profile.jsx";
 
 const App = () => {
   return (
     <>
-      <Auth />
-      {/* <Header /> */}
-      {/* <p>react</p> */}
+      <Router>
+        <Routes>
+
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/profile" element={<Profile />} />
+
+        </Routes>
+      </Router>
     </>
   )
 }

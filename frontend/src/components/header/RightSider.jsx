@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import HomeIcon from "../../assets/icons/HomeIcon";
 import Network from "../../assets/icons/Network";
 import Jobs from "../../assets/icons/Jobs";
 import Messaging from "../../assets/icons/Messaging";
 import Notifications from "../../assets/icons/Notifications";
+import ProfileDropdown from "./ProfileDropdown";
 
 const NavItem = ({ Icon, text, active, badge }) => (
     <div className={`flex flex-col items-center justify-center cursor-pointer min-w-[50px] md:min-w-[80px] h-full border-b-[2px] transition-colors ${active ? 'text-black border-black/90' : 'text-gray-500 border-transparent hover:text-black'}`}>
@@ -20,6 +21,26 @@ const NavItem = ({ Icon, text, active, badge }) => (
 );
 
 const RightSider = () => {
+    const [isProfileOpen, setIsProfileOpen] = useState(false);
+    const profileRef = useRef(null);
+
+    const currentUser = {
+        name: "Shivam Gupta",
+        designation: "Full stack developer",
+        image: "https://ui-avatars.com/api/?name=Shivam+Gupta&background=random&rounded=true",
+        isVerified: true
+    };
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (profileRef.current && !profileRef.current.contains(event.target)) {
+                setIsProfileOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
     return (
         <nav className="flex items-center gap-1 md:gap-2 h-full">
             <NavItem Icon={HomeIcon} text="Home" active={true} />
@@ -28,12 +49,20 @@ const RightSider = () => {
             <NavItem Icon={Messaging} text="Messaging" />
             <NavItem Icon={Notifications} text="Notifications" badge="3" />
 
-            <div className="flex flex-col items-center justify-center cursor-pointer min-w-[50px] md:min-w-[70px] h-full text-gray-500 hover:text-black border-b-[2px] border-transparent">
-                <img src="https://ui-avatars.com/api/?name=User&background=random&rounded=true" alt="Profile" className="w-6 h-6 rounded-full mt-1" />
+            <div
+                ref={profileRef}
+                onClick={() => setIsProfileOpen(!isProfileOpen)}
+                className="relative flex flex-col items-center justify-center cursor-pointer min-w-[50px] md:min-w-[70px] h-full text-gray-500 hover:text-black border-b-[2px] border-transparent"
+            >
+                <img src={currentUser.image} alt="Profile" className="w-6 h-6 rounded-full mt-1 object-cover" />
                 <div className="flex items-center text-[12px] mt-[2px] hidden md:flex">
                     <span>Me</span>
                     <svg className="w-3 h-3 ml-[2px] fill-current" viewBox="0 0 24 24"><path d="M7 9l5 5 5-5z"></path></svg>
                 </div>
+
+                {isProfileOpen && (
+                    <ProfileDropdown user={currentUser} />
+                )}
             </div>
 
             <div className="hidden md:block h-[38px] border-l border-gray-200 mx-2"></div>
