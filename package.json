@@ -1,0 +1,20 @@
+{
+  "name": "linkedinclone",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "powershell -ExecutionPolicy Bypass -File scripts/dev-windows.ps1",
+    "git:status": "node scripts/git-manage.js status origin",
+    "git:sync": "node scripts/git-manage.js sync origin",
+    "git:add": "node scripts/git-manage.js add origin",
+    "git:commit": "node scripts/git-manage.js commit origin",
+    "git:pull": "node scripts/git-manage.js pull origin",
+    "git:push": "node scripts/git-manage.js push origin",
+    "git:amend": "node scripts/git-manage.js amend origin"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

@@ -1,11 +1,13 @@
 import React from "react";
 import Header from "./components/Header";
+import Auth from "./components/auth/Auth.jsx";
 
-const App = () =>{
-  return(
+const App = () => {
+  return (
     <>
-      <Header/>
-      <p>react</p>
+      <Auth />
+      {/* <Header /> */}
+      {/* <p>react</p> */}
     </>
   )
 }
